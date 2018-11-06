@@ -1,10 +1,8 @@
-# aladyn
-Artificial Neural Network Molecular Dynamics - Computational Materials mini-app (HPCI)
 
-This mini-app is a simple molecular dynamics (MD) code for performing
-constant energy MD simulation using artificial neural networks (ANN)
+This mini-app is a simple molecular dynamics (MD) code for performing 
+constant energy MD simulation using artificial neural networks (ANN) 
 interatomic potential trained for Al crystal structure.
-The trained ANN is produced and offered by Ganga P. Pun and Yuri Mishin
+The trained ANN is produced and offered by Ganga P. Pun and Yuri Mishin 
 from George Mason University.
 
 -----------------------------------------------------------------------
@@ -46,21 +44,22 @@ Use any of the above structures by linking them to structure.plt, e.g.,
 ln -s ./STR/Al_N500_T100K.plt structure.plt
 
 -----------------------------------------------------------------------
-Execution:
+Execution:   
 
-cd ALADYN.test
-> aladyn
+cd ../ALADYN.test
+./aladyn 
 
 Execution options: (see also ./CM_MINI1.test/aladyn.bat script)
 
-> aladyn             # run, using default options - see below
-> aladyn -n 10       # do 10 MD steps (default: -n 10)
-> aladyn -n 10 -m 2  # do 10 MD steps, reproting at each 2nd step
+./aladyn             # run, using default options - see below
+./aladyn -n 10       # do 10 MD steps (default: -n 10)
+./aladyn -n 10 -m 2  # do 10 MD steps, reproting at each 2nd step
                      # (default: -m 1)
-> aladyn -v 0        # run version 0 (default: -v 0)
-                     # gives the possibilityto test different versions
-                     # of the code swithching to different subroutines,
+./aladyn -v 0        # run version 0 (default: -v 0) 
+                     # gives the possibilityto test different versions 
+                     # of the code swithching to different subroutines, 
                      # (default: -v 0)
+-----------------------------------------------------------------------
 -----------------------------------------------------------------------
 
 Source Files:
@@ -68,10 +67,10 @@ Source Files:
      contains:
       subroutine read_pot  ! reads ann.dat potential file
       subroutine init_param  ! simulation initialization
-      subroutine node_config ! cpu node configuration
+      subroutine node_config ! cpu node configuration 
       subroutine link_cell_setup  ! set-up of the link-cell list
       subroutine get_neighbors_0  ! finds cut-off neighbors (ver. 0)
-      subroutine get_nbrs_check   ! get neighbors with overlap check
+      subroutine get_nbrs_check   ! get neighbors with overlap check 
       subroutine get_nbrs_no_check ! get neighbors with no overlap check
       subroutine SIM_run     ! executes a simulation run !
       subroutine force_calc  ! calls force_ver_#  (# = 0 currently)
@@ -91,7 +90,7 @@ Source Files:
    aladyn_MD.f    - molecular dynamics module
      contains:
       subroutine init_MD   ! MD run initialization
-      subroutine init_vel  ! velocity initialization
+      subroutine init_vel  ! velocity initialization 
       subroutine initaccel ! acceleration initialization (based on pot)
       subroutine get_T     ! Calculates current system temperature
       subroutine predict_atoms ! Gear predictor call !
@@ -121,7 +120,7 @@ Subroutine force_ver_0() calls _0 versions of the respective subroutines:
   call Energy_ANN_0(natoms)
   call force_ANN_0(1,natoms)
 
-Alternatively, force_ver_1() should call the _1 versions of those
+Alternatively, force_ver_1() should call the _1 versions of those 
 subroutines, when prepared, like:
   call get_neighbors_1(ichk)
   call Energy_ANN_1(natoms)
@@ -129,35 +128,35 @@ subroutines, when prepared, like:
 
 =======================================================================
  Notices:
- Copyright 2018 United States Government as represented by the
- Administrator of the National Aeronautics and Space Administration.
+ Copyright 2018 United States Government as represented by the 
+ Administrator of the National Aeronautics and Space Administration. 
  All Rights Reserved.
-
+ 
  Disclaimers:
  No Warranty: THE SUBJECT SOFTWARE IS PROVIDED "AS IS" WITHOUT ANY
- WARRANTY OF ANY KIND, EITHER EXPRESSED, IMPLIED, OR STATUTORY,
- INCLUDING, BUT NOT LIMITED TO, ANY WARRANTY THAT THE SUBJECT SOFTWARE
- WILL CONFORM TO SPECIFICATIONS, ANY IMPLIED WARRANTIES OF
- MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE, OR FREEDOM FROM
- INFRINGEMENT, ANY WARRANTY THAT THE SUBJECT SOFTWARE WILL BE ERROR
- FREE, OR ANY WARRANTY THAT DOCUMENTATION, IF PROVIDED, WILL CONFORM
- TO THE SUBJECT SOFTWARE. THIS AGREEMENT DOES NOT,IN ANY MANNER,
- CONSTITUTE AN ENDORSEMENT BY GOVERNMENT AGENCY OR ANY PRIOR RECIPIENT
- OF ANY RESULTS, RESULTING DESIGNS, HARDWARE, SOFTWARE PRODUCTS
- OR ANY OTHER APPLICATIONS RESULTING FROM USE OF THE SUBJECT SOFTWARE.
- FURTHER, GOVERNMENT AGENCY DISCLAIMS ALL WARRANTIES AND LIABILITIES
+ WARRANTY OF ANY KIND, EITHER EXPRESSED, IMPLIED, OR STATUTORY, 
+ INCLUDING, BUT NOT LIMITED TO, ANY WARRANTY THAT THE SUBJECT SOFTWARE 
+ WILL CONFORM TO SPECIFICATIONS, ANY IMPLIED WARRANTIES OF 
+ MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE, OR FREEDOM FROM 
+ INFRINGEMENT, ANY WARRANTY THAT THE SUBJECT SOFTWARE WILL BE ERROR 
+ FREE, OR ANY WARRANTY THAT DOCUMENTATION, IF PROVIDED, WILL CONFORM 
+ TO THE SUBJECT SOFTWARE. THIS AGREEMENT DOES NOT,IN ANY MANNER, 
+ CONSTITUTE AN ENDORSEMENT BY GOVERNMENT AGENCY OR ANY PRIOR RECIPIENT 
+ OF ANY RESULTS, RESULTING DESIGNS, HARDWARE, SOFTWARE PRODUCTS 
+ OR ANY OTHER APPLICATIONS RESULTING FROM USE OF THE SUBJECT SOFTWARE. 
+ FURTHER, GOVERNMENT AGENCY DISCLAIMS ALL WARRANTIES AND LIABILITIES 
  REGARDING THIRD-PARTY SOFTWARE, IF PRESENT IN THE ORIGINAL SOFTWARE,
  AND DISTRIBUTES IT "AS IS." 
-
+ 
  Waiver and Indemnity:
  RECIPIENT AGREES TO WAIVE ANY AND ALL CLAIMS AGAINST THE UNITED STATES
- GOVERNMENT, ITS CONTRACTORS AND SUBCONTRACTORS, AS WELL AS ANY PRIOR
- RECIPIENT.  IF RECIPIENT'S USE OF THE SUBJECT SOFTWARE RESULTS IN ANY
+ GOVERNMENT, ITS CONTRACTORS AND SUBCONTRACTORS, AS WELL AS ANY PRIOR 
+ RECIPIENT.  IF RECIPIENT'S USE OF THE SUBJECT SOFTWARE RESULTS IN ANY 
  LIABILITIES, DEMANDS, DAMAGES, EXPENSES OR LOSSES ARISING FROM SUCH
- USE, INCLUDING ANY DAMAGES FROM PRODUCTS BASED ON, OR RESULTING FROM,
+ USE, INCLUDING ANY DAMAGES FROM PRODUCTS BASED ON, OR RESULTING FROM, 
  RECIPIENT'S USE OF THE SUBJECT SOFTWARE, RECIPIENT SHALL INDEMNIFY AND
- HOLD HARMLESS THE UNITED STATES GOVERNMENT, ITS CONTRACTORS AND
+ HOLD HARMLESS THE UNITED STATES GOVERNMENT, ITS CONTRACTORS AND 
  SUBCONTRACTORS, AS WELL AS ANY PRIOR RECIPIENT, TO THE EXTENT
- PERMITTED BY LAW. RECIPIENT'S SOLE REMEDY FOR ANY SUCH MATTER SHALL
+ PERMITTED BY LAW. RECIPIENT'S SOLE REMEDY FOR ANY SUCH MATTER SHALL 
  BE THE IMMEDIATE, UNILATERAL TERMINATION OF THIS AGREEMENT.
 
