@@ -48,16 +48,16 @@ ln -s ./STR/Al_N500_T100K.plt structure.plt
 -----------------------------------------------------------------------
 Execution:
 
-cd ../ALADYN.test
-./aladyn
+cd ALADYN.test
+> aladyn
 
 Execution options: (see also ./CM_MINI1.test/aladyn.bat script)
 
-./aladyn             # run, using default options - see below
-./aladyn -n 10       # do 10 MD steps (default: -n 10)
-./aladyn -n 10 -m 2  # do 10 MD steps, reproting at each 2nd step
+> aladyn             # run, using default options - see below
+> aladyn -n 10       # do 10 MD steps (default: -n 10)
+> aladyn -n 10 -m 2  # do 10 MD steps, reproting at each 2nd step
                      # (default: -m 1)
-./aladyn -v 0        # run version 0 (default: -v 0)
+> aladyn -v 0        # run version 0 (default: -v 0)
                      # gives the possibilityto test different versions
                      # of the code swithching to different subroutines,
                      # (default: -v 0)
