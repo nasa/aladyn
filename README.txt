@@ -1,130 +1,111 @@
+-----------------------------------------------------------------------
+04-26-2019
 
-This mini-app is a simple molecular dynamics (MD) code for performing 
-constant energy MD simulation using artificial neural networks (ANN) 
-interatomic potential trained for Al crystal structure.
-The trained ANN is produced and offered by Ganga P. Pun and Yuri Mishin 
+ALADYN mini-app is a simple molecular dynamics (MD) code for performing 
+constant energy atomistic simulations using artificial neural networks 
+(ANN) interatomic potential trained for Al crystal structure.
+The trained ANN was produced and offered by Ganga P. Pun and Yuri Mishin 
 from George Mason University.
 
------------------------------------------------------------------------
-Requirements:
-* Linux
-* FORTRAN compiler (2003 or newer)
------------------------------------------------------------------------
-Edit the provided makefile for specific compiler option of your choice
------------------------------------------------------------------------
-Compilation: use the provided makefile with the following options:
-> make            ! compiles with -O3 optimization on !
-> make DEBUG=TRUE ! compiles with check and warning flags on !
-> make OMP=TRUE   ! compiles with -openmp (OpenMP) option on !
+=======================================================================
+
+ COMPILATION
 
 -----------------------------------------------------------------------
-Example (test) directory:
-../ALADYN.test
+* FORTRAN compiler (Intel 2003 or newer, or PGI FORTRAN with OpenACC)
+-----------------------------------------------------------------------
+Source directory: ALADYN.source
+-----------------------------------------------------------------------
+Compilation: use the provided makefiles with the following options:
+
+Intel compiler:
+> make -f makefile.intel            ! compiles with -O3 optimization on 
+> make -f makefile.intel DEBUG=TRUE ! check and warning flags on
+> make -f makefile.intel OMP=TRUE   ! compile with OpenMP direectives
+
+PGI compiler:
+> make -f makefile.pgi              ! compiles with -O3 optimization on 
+> make -f makefile.pgi DEBUG=TRUE   ! check and warning flags on
+> make -f makefile.pgi OMP=TRUE     ! compile with OpenMP direectives
+> make -f makefile.pgi ACC=TRUE  ! compile with OpenMP+OpenACC direectives
+
+Edit the provided makefiles for specific compiler option of your choice
+=======================================================================
+
+ EXECUTION
+
+-----------------------------------------------------------------------
+Run from the example (test) directory: ALADYN.test
 
 Running a tets case:
-run aladyn.bat script in ALADYN.test directory:
-> aladyn.bat   ! executes 10 MD steps !
-> aladyn.bat -n 100 -m 10 -v 0 ! executes 100 MD steps,      !
-                               ! reporting every 10th step,  !
-                               ! using version 0 subroutines !
+> aladyn              ! executes 10 MD steps reporting at each step
+> aladyn -n 100 -m 10 ! executes 100 MD steps, reporting every 10-th step
+
+Available PBS scripts used for NASA/LaRC K3 cluster:
+ALADYN_intel.job      - run the intel version
+ALADYN_pgi_V100.job   - run the pgi version with OpneACC for V100 gpu.
+
+Screen output is riderected to aladyn.out
+
+Example outputs are saved in: aladyn_intel.out and aladyn_pgi.out
+=======================================================================
+
+INPUT FILES:
 
 -----------------------------------------------------------------------
-Required input files:
-
-ann.dat - Neural network potential file
+ANN.dat - Neural network potential file
 structure.plt - input atomic structure file
 
---- Available test structures ---
-in STR directory:
-Al_N500_T100K.plt - 500 atoms Al crystal at 100K
-Al_N4500.plt      - 4500 atoms Al crystal at 0K
-Al_N72000.plt     - 72000 atoms Al crystal at 0K
+-----------------------------------------------------------------------
+--- Available test structures in directory STR:
+
+Al_N4000.plt      -   4000 atoms Al crystal
+Al_N8000.plt      -   8000 atoms Al crystal
+Al_N16000.plt     -  16000 atoms Al crystal
+Al_N32000.plt     -  32000 atoms Al crystal
+Al_N64000.plt     -  64000 atoms Al crystal
+Al_N128000.plt    - 128000 atoms Al crystal
+Al_N192000.plt    - 192000 atoms Al crystal
+Al_N256000.plt    - 256000 atoms Al crystal
 
 Use any of the above structures by linking them to structure.plt, e.g.,
-ln -s ./STR/Al_N500_T100K.plt structure.plt
+> ln -s STR/Al_N4000.plt structure.plt
 
------------------------------------------------------------------------
-Execution:   
+=======================================================================
 
-cd ../ALADYN.test
-./aladyn 
+SOURCE FILES:
 
-Execution options: (see also ./CM_MINI1.test/aladyn.bat script)
-
-./aladyn             # run, using default options - see below
-./aladyn -n 10       # do 10 MD steps (default: -n 10)
-./aladyn -n 10 -m 2  # do 10 MD steps, reproting at each 2nd step
-                     # (default: -m 1)
-./aladyn -v 0        # run version 0 (default: -v 0) 
-                     # gives the possibilityto test different versions 
-                     # of the code swithching to different subroutines, 
-                     # (default: -v 0)
------------------------------------------------------------------------
------------------------------------------------------------------------
-
-Source Files:
    aladyn.f       - Main program
-     contains:
-      subroutine read_pot  ! reads ann.dat potential file
-      subroutine init_param  ! simulation initialization
-      subroutine node_config ! cpu node configuration 
-      subroutine link_cell_setup  ! set-up of the link-cell list
-      subroutine get_neighbors_0  ! finds cut-off neighbors (ver. 0)
-      subroutine get_nbrs_check   ! get neighbors with overlap check 
-      subroutine get_nbrs_no_check ! get neighbors with no overlap check
-      subroutine SIM_run     ! executes a simulation run !
-      subroutine force_calc  ! calls force_ver_#  (# = 0 currently)
-      subroutine force_ver_0 ! energy and force calculation (ver. 0)
-      subroutine write_structure ! writes an output structure file
-
    aladyn_sys.f, aladyn_sys_OMP.f, aladyn_sys_NO_OMP.f - system modules
    aladyn_mods.f  - general purpose modules
    aladyn_IO.f    - I/O operations module
 
    aladyn_ANN.f   - ANN potential energy and force calculation module
-     contains:
-      subroutine init_param_ANN ! initializes the ANN pot. parameters
-      subroutine Energy_ANN_0   ! potential energy calculation (ver. 0)
-      subroutine force_ANN_0    ! force calculation (ver. 0)
+    contains:
+     subroutine Frc_ANN_OMP  ! force & energy calculation (OpenMP version)
+     subroutine Frc_ANN_ACC  ! force & energy calculation (OpenACC version)
 
    aladyn_MD.f    - molecular dynamics module
      contains:
-      subroutine init_MD   ! MD run initialization
-      subroutine init_vel  ! velocity initialization 
-      subroutine initaccel ! acceleration initialization (based on pot)
       subroutine get_T     ! Calculates current system temperature
       subroutine predict_atoms ! Gear predictor call !
       subroutine correct_atoms ! Gear corrector call !
 
-   aladyn_MSR.f   - measure subroutines module
-     contains:
-      subroutine measure_energy ! energy measurement !
-      subroutine report         ! writes a report line in the output !
-
 -----------------------------------------------------------------------
-Subroutines for optimization are those wich end with _0 (version 0):
-They are called from force_calc in aladyn.f, depending on -v parameter:
+Suggested subroutines for optimization: Frc_ANN_OMP and Frc_ANN_ACC
 
-       select case(iver)
-        case(0)
-         call force_ver_0(ichk,iforce) ! current default version !
-        case(1)
-         call force_ver_1(ichk,iforce) ! to be made by users !
-        ...
 
-        end select
+ For further information contact:
 
-Subroutine force_ver_0() calls _0 versions of the respective subroutines:
- specifically:
-  call get_neighbors_0(ichk)
-  call Energy_ANN_0(natoms)
-  call force_ANN_0(1,natoms)
+ Vesselin Yamakov
+ National Institute of Aerospace
+ 100 Exploration Way,
+ Hampton, VA 23666
+ phone: (757)-864-2850
+ fax:   (757)-864-8911
+ e-mail: yamakov@nianet.org
 
-Alternatively, force_ver_1() should call the _1 versions of those 
-subroutines, when prepared, like:
-  call get_neighbors_1(ichk)
-  call Energy_ANN_1(natoms)
-  call force_ANN_1(1,natoms)
+
 
 =======================================================================
  Notices:
@@ -159,4 +140,6 @@ subroutines, when prepared, like:
  SUBCONTRACTORS, AS WELL AS ANY PRIOR RECIPIENT, TO THE EXTENT
  PERMITTED BY LAW. RECIPIENT'S SOLE REMEDY FOR ANY SUCH MATTER SHALL 
  BE THE IMMEDIATE, UNILATERAL TERMINATION OF THIS AGREEMENT.
+=======================================================================
+
 
