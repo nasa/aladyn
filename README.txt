@@ -1,5 +1,7 @@
 -----------------------------------------------------------------------
-04-26-2019
+05-28-2019
+
+Version 2.0: OpenMP optomized version for Intel
 
 ALADYN mini-app is a simple molecular dynamics (MD) code for performing 
 constant energy atomistic simulations using artificial neural networks 
