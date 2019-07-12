@@ -31,6 +31,14 @@ PGI compiler:
 > make -f makefile.pgi OMP=TRUE     ! compile with OpenMP direectives
 > make -f makefile.pgi ACC=TRUE  ! compile with OpenMP+OpenACC direectives
 
+Notes: 
+1. This release contains two versions of the aladyn_ANN.f file, 
+aladyn_ANN_Intrinsic.f and aladyn_ANN_Extrinsic.f, which can be
+used intercahgeably thorugh the makefile. The two versions differ only in 
+the Frc_ANN_OMP() subroutine. In the Intrinsic version, the 
+energy and force calculations are done atom by atom, while in the 
+Extrinsic version they are done one operation at a time for all atoms.
+
 Edit the provided makefiles for specific compiler option of your choice
 =======================================================================
 
