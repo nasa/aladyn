@@ -1,5 +1,5 @@
 -----------------------------------------------------------------------
-05-28-2019
+07-12-2019
 
 Version 2.0: OpenMP optomized version for Intel compiler by Daniel S Kokron.
 
