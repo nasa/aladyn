@@ -1,7 +1,8 @@
 -----------------------------------------------------------------------
 05-28-2019
 
-Version 2.0: OpenMP optomized version for Intel
+Version 2.0: OpenMP optomized version for Intel compiler by Daniel S Kokron.
+
 
 ALADYN mini-app is a simple molecular dynamics (MD) code for performing 
 constant energy atomistic simulations using artificial neural networks 
@@ -32,7 +33,8 @@ PGI compiler:
 > make -f makefile.pgi ACC=TRUE  ! compile with OpenMP+OpenACC direectives
 
 Notes: 
-1. This release contains two versions of the aladyn_ANN.f file, 
+
+This release contains two versions of the aladyn_ANN.f file, 
 aladyn_ANN_Intrinsic.f and aladyn_ANN_Extrinsic.f, which can be
 used intercahgeably thorugh the makefile. The two versions differ only in 
 the Frc_ANN_OMP() subroutine. In the Intrinsic version, the 
