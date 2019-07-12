@@ -15,7 +15,7 @@ from George Mason University.
  COMPILATION
 
 -----------------------------------------------------------------------
-* FORTRAN compiler (Intel 2003 or newer, or PGI FORTRAN with OpenACC)
+* FORTRAN compiler (Intel 2003 or newer with OpenMP)
 -----------------------------------------------------------------------
 Source directory: ALADYN.source
 -----------------------------------------------------------------------
