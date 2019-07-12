@@ -1,5 +1,8 @@
 -----------------------------------------------------------------------
-04-26-2019
+07-12-2019
+
+Version 2.0: OpenACC optomized version for PGI compiler by Gabriele Jost.
+
 
 ALADYN mini-app is a simple molecular dynamics (MD) code for performing 
 constant energy atomistic simulations using artificial neural networks 
@@ -12,7 +15,7 @@ from George Mason University.
  COMPILATION
 
 -----------------------------------------------------------------------
-* FORTRAN compiler (Intel 2003 or newer, or PGI FORTRAN with OpenACC)
+* FORTRAN 2003 compiler (PGI v19 or newer with OpenACC)
 -----------------------------------------------------------------------
 Source directory: ALADYN.source
 -----------------------------------------------------------------------
